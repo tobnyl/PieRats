@@ -21,6 +21,9 @@ public class ThirdPersonCamera : MonoBehaviour
     void Start ()
     {
         transform.position = Target.transform.position - Target.transform.forward * DistanceFromTarget;
+        Debug.Log(Target.transform.name);
+        //transform.rotation = Target.transform.rotation;
+        transform.rotation = Quaternion.Euler(0, Target.transform.rotation.eulerAngles.y, 0);
 
         _offset = transform.position - Target.transform.position;
         _offsetY = new Vector3(0, OffsetY, 0);
