@@ -5,10 +5,18 @@ using UnityEngine;
 public class Ship : MonoBehaviour
 {
     public int Index;
+    public float Force = 1f;
+
+    private Rigidbody _rigidbody;
 
     private Vector3 AxisLeft
     {
-        get { return new Vector3(Input.GetAxis("Horizontal" + Index), 0, Input.GetAxis("Vertical" + Index)); }
+        get { return new Vector3(Input.GetAxis("Horizontal" + Index), 0, -Input.GetAxis("Vertical" + Index)); }
+    }
+
+    void Awake()
+    {
+        _rigidbody = GetComponent<Rigidbody>();
     }
 
 	// Use this for initialization
@@ -16,6 +24,11 @@ public class Ship : MonoBehaviour
     {
 		
 	}
+
+    void FixedUpdate()
+    {
+        _rigidbody.AddForce(AxisLeft * Force);
+    }
 	
 	// Update is called once per frame
 	void Update ()
