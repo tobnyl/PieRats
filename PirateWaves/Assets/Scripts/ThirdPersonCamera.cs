@@ -20,9 +20,7 @@ public class ThirdPersonCamera : MonoBehaviour
     // Use this for initialization
     void Start ()
     {
-        transform.position = Target.transform.position - Target.transform.forward * DistanceFromTarget;
-        Debug.Log(Target.transform.name);
-        //transform.rotation = Target.transform.rotation;
+        transform.position = Target.transform.position - Target.transform.forward * DistanceFromTarget;              
         transform.rotation = Quaternion.Euler(0, Target.transform.rotation.eulerAngles.y, 0);
 
         _offset = transform.position - Target.transform.position;
@@ -38,6 +36,7 @@ public class ThirdPersonCamera : MonoBehaviour
     void LateUpdate()
     {
         transform.position = _offset + Target.transform.position + _offsetY;
+        transform.rotation = Quaternion.Slerp(transform.rotation, Target.transform.rotation, Time.deltaTime*2);
     }
 
     #endregion
