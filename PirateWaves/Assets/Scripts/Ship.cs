@@ -5,7 +5,8 @@ using UnityEngine;
 public class Ship : MonoBehaviour
 {
     public int Index;
-    public float Force = 1f;
+    public float ForwardForce = 1f;
+    public float RotationForce = 1f;
 
     private Rigidbody _rigidbody;
 
@@ -27,7 +28,8 @@ public class Ship : MonoBehaviour
 
     void FixedUpdate()
     {
-        _rigidbody.AddForce(AxisLeft * Force);
+        _rigidbody.AddForce(transform.forward * AxisLeft.z * ForwardForce);
+        _rigidbody.AddTorque(Vector3.up * AxisLeft.x * RotationForce);
     }
 	
 	// Update is called once per frame
