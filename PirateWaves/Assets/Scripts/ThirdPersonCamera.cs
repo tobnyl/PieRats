@@ -9,6 +9,7 @@ public class ThirdPersonCamera : MonoBehaviour
     public GameObject Target;
     public float DistanceFromTarget = 5.0f;
     public float OffsetY;
+    public float SlerpSpeed = 1;
 
     private Vector3 _offset;
     private Vector3 _offsetY;
@@ -20,12 +21,13 @@ public class ThirdPersonCamera : MonoBehaviour
     // Use this for initialization
     void Start ()
     {
+        
+
         transform.position = Target.transform.position - Target.transform.forward * DistanceFromTarget;              
-        transform.rotation = Quaternion.Euler(0, Target.transform.rotation.eulerAngles.y, 0);
+        //transform.rotation = Quaternion.Euler(0, Target.transform.rotation.eulerAngles.y, 0);
 
         _offset = transform.position - Target.transform.position;
         _offsetY = new Vector3(0, OffsetY, 0);
-
     }
 
     // Update is called once per frame
@@ -40,8 +42,8 @@ public class ThirdPersonCamera : MonoBehaviour
 
         //Vector3.Slerp(transform.position, Target.transform.position, Time.deltaTime * SlerpSpeed) :
         //transform.position = _offset + Target.transform.position + _offsetY;
-        transform.position = Vector3.Slerp(transform.position, newPosition, Time.deltaTime*2);
-        transform.rotation = Quaternion.Slerp(transform.rotation, Target.transform.rotation, Time.deltaTime*2);
+        transform.position = Vector3.Slerp(transform.position, newPosition, Time.deltaTime* SlerpSpeed);
+        transform.rotation = Quaternion.Slerp(transform.rotation, newRotationY, Time.deltaTime* SlerpSpeed);
     }
 
     #endregion
