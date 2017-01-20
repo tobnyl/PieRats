@@ -24,7 +24,7 @@ public class ThirdPersonCamera : MonoBehaviour
         
 
         transform.position = Target.transform.position - Target.transform.forward * DistanceFromTarget;              
-        //transform.rotation = Quaternion.Euler(0, Target.transform.rotation.eulerAngles.y, 0);
+        transform.rotation = Quaternion.Euler(0, Target.transform.rotation.eulerAngles.y, 0);
 
         _offset = transform.position - Target.transform.position;
         _offsetY = new Vector3(0, OffsetY, 0);
@@ -38,7 +38,9 @@ public class ThirdPersonCamera : MonoBehaviour
     void LateUpdate()
     {
         var newRotationY = Quaternion.AngleAxis(Target.transform.rotation.eulerAngles.y, Vector3.up);
-        var newPosition = newRotationY * _offset + Target.transform.position + _offsetY;
+        var newPosition = Target.transform.position - Target.transform.forward*DistanceFromTarget + _offsetY;
+
+            //newRotationY * _offset + Target.transform.position + _offsetY;
 
         //Vector3.Slerp(transform.position, Target.transform.position, Time.deltaTime * SlerpSpeed) :
         //transform.position = _offset + Target.transform.position + _offsetY;
