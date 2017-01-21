@@ -10,6 +10,7 @@ public class Ship : MonoBehaviour
     public float ForwardForce = 1f;
     public float RotationForce = 1f;
     public bool BackMovement;
+    public float MaxSpeed = 15f;
         
     [Header("Base Canon")]
     public GameObject BaseCanon;
@@ -64,7 +65,9 @@ public class Ship : MonoBehaviour
 
     void FixedUpdate()
     {
-        if (!BackMovement && AxisLeft.z > 0)
+        Debug.Log(_rigidbody.velocity);
+
+        if (!BackMovement && AxisLeft.z > 0 && _rigidbody.velocity.magnitude < MaxSpeed)
         { 
             _rigidbody.AddForce(transform.forward * AxisLeft.z * ForwardForce);
         }
@@ -73,8 +76,11 @@ public class Ship : MonoBehaviour
             _rigidbody.AddForce(transform.forward * AxisLeft.z * ForwardForce);
         }
 
-        _rigidbody.AddTorque(Vector3.up * AxisLeft.x * RotationForce);
-        Debug.Log(transform.rotation.eulerAngles.y);
+        if (AxisLeft.x != 0)
+        {
+            _rigidbody.AddTorque(Vector3.up*AxisLeft.x*RotationForce);
+            _rigidbody.AddForce(transform.forward * 1);
+        }
 
         if (_instantiateCannonBall)
         {
