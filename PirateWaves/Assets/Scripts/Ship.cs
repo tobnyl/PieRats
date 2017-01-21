@@ -9,6 +9,7 @@ public class Ship : MonoBehaviour
     public int Index;
     public float ForwardForce = 1f;
     public float RotationForce = 1f;
+    public bool BackMovement;
         
     [Header("Base Canon")]
     public GameObject BaseCanon;
@@ -63,7 +64,15 @@ public class Ship : MonoBehaviour
 
     void FixedUpdate()
     {
-        _rigidbody.AddForce(transform.forward * AxisLeft.z * ForwardForce);
+        if (!BackMovement && AxisLeft.z > 0)
+        { 
+            _rigidbody.AddForce(transform.forward * AxisLeft.z * ForwardForce);
+        }
+        else if (BackMovement)
+        {
+            _rigidbody.AddForce(transform.forward * AxisLeft.z * ForwardForce);
+        }
+
         _rigidbody.AddTorque(Vector3.up * AxisLeft.x * RotationForce);
 
         if (_instantiateCannonBall)
