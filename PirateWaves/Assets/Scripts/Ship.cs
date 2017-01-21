@@ -32,6 +32,8 @@ public class Ship : MonoBehaviour
 
     [Header("Barrel")]
     public GameObject Barrel;
+    public float BarrelDestroyForce;
+    public float BarrelDestroyTorque;
 
     [Header("Mast")]
     public GameObject Mast;
@@ -137,15 +139,18 @@ public class Ship : MonoBehaviour
             if (_health <= 0)
             {
                 _fracturedObject.Explode(c.contacts[0].point, ExplosionForce);
-                var baseCanonRigidbody = BaseCanon.GetComponent<Rigidbody>();
 
-                if (baseCanonRigidbody != null)
-                {
-                    baseCanonRigidbody.isKinematic = false;
-                    baseCanonRigidbody.useGravity = true;
-                    baseCanonRigidbody.AddForce(Vector3.up * CannonDestroyForce, ForceMode.Impulse);
-                    baseCanonRigidbody.AddTorque(Vector3.right * CannonDestroyTorque, ForceMode.Impulse);
-                }
+                DestroyGameObject(BaseCanon, CannonDestroyForce, CannonDestroyTorque);
+                DestroyGameObject(Barrel, BarrelDestroyForce, BarrelDestroyTorque);
+                //var baseCanonRigidbody = BaseCanon.GetComponent<Rigidbody>();
+
+                //if (baseCanonRigidbody != null)
+                //{
+                //    baseCanonRigidbody.isKinematic = false;
+                //    baseCanonRigidbody.useGravity = true;
+                //    baseCanonRigidbody.AddForce(Vector3.up * CannonDestroyForce, ForceMode.Impulse);
+                //    baseCanonRigidbody.AddTorque(Vector3.right * CannonDestroyTorque, ForceMode.Impulse);
+                //}
 
                 //Destroy(gameObject);
             }
@@ -156,6 +161,18 @@ public class Ship : MonoBehaviour
 
     #endregion
     #region Methods
+
+    private void DestroyGameObject(GameObject go, float force, float torque)
+    {
+        var rigidbody = go.GetComponent<Rigidbody>();
+
+        if (rigidbody != null)
+        {
+            rigidbody.isKinematic = false;
+            rigidbody.AddForce(Vector3.up * force, ForceMode.Impulse);
+            rigidbody.AddTorque(Vector3.right * torque, ForceMode.Impulse);
+        }
+    }
 
     private void RotateBaseCannon()
     {
