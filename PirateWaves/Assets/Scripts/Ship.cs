@@ -26,12 +26,14 @@ public class Ship : MonoBehaviour
     public GameObject CanonBallPosition;
     public GameObject CanonBallPrefab;
     public float CanonBallForce = 10f;
+    public float CoolDown = 1f;
 
     private Rigidbody _rigidbody;
     private float _currentBaseCanonAngleY;
     private float _currentCanonAngleX;
     private bool _isFiring;
     private bool _instantiateCannonBall;
+    private float _currentCoolDown;
 
     private Vector3 AxisLeft
     {
@@ -102,15 +104,18 @@ public class Ship : MonoBehaviour
 
     private void Fire()
     {
-        if (Input.GetAxisRaw("Fire" + Index) > 0 && !_isFiring)
+        if (Input.GetAxisRaw("Fire" + Index) > 0 && _currentCoolDown <= 0 && !_isFiring)
         {
             _isFiring = true;
-            _instantiateCannonBall = true;            
+            _currentCoolDown = CoolDown;
+            _instantiateCannonBall = true; 
         }
         else if (Input.GetAxisRaw("Fire" + Index) == 0)
         {
             _isFiring = false;
         }
+
+        _currentCoolDown -= Time.deltaTime;
     }
 
     #endregion
