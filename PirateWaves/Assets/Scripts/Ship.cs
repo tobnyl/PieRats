@@ -35,6 +35,8 @@ public class Ship : MonoBehaviour
     [SerializeField, ReadOnly]
     private int _health;
     public float ExplosionForce = 1f;
+    public float CannonDestroyForce = 10f;
+    public float CannonDestroyTorque = 10f;
 
     [Header("Particle Systems")]
     public GameObject HitParticleSystem;
@@ -56,6 +58,11 @@ public class Ship : MonoBehaviour
     private Vector3 AxisRight
     {
         get { return new Vector3(Input.GetAxis("HorizontalRight" + Index), 0, Input.GetAxis("VerticalRight" + Index)); }
+    }
+
+    public bool IsDead
+    {
+        get { return _health <= 0; }
     }
 
     #endregion
@@ -120,6 +127,15 @@ public class Ship : MonoBehaviour
             if (_health <= 0)
             {
                 _fracturedObject.Explode(c.contacts[0].point, ExplosionForce);
+                var baseCanonRigidbody = BaseCanon.GetComponent<Rigidbody>();
+
+                if (baseCanonRigidbody != null)
+                {
+                    baseCanonRigidbody.isKinematic = false;
+                    baseCanonRigidbody.useGravity = true;
+                    baseCanonRigidbody.AddForce(Vector3.up * CannonDestroyForce, ForceMode.Impulse);
+                    baseCanonRigidbody.AddTorque(Vector3.right * CannonDestroyTorque, ForceMode.Impulse);
+                }
 
                 //Destroy(gameObject);
             }

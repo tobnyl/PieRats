@@ -13,6 +13,7 @@ public class ThirdPersonCamera : MonoBehaviour
 
     private Vector3 _offset;
     private Vector3 _offsetY;
+    private Ship _ship;
 
     #endregion
     #region Events
@@ -24,21 +25,30 @@ public class ThirdPersonCamera : MonoBehaviour
 
         _offset = transform.position - Target.transform.position;
         _offsetY = new Vector3(0, OffsetY, 0);
+
+        if (Target != null)
+        {
+            _ship = Target.GetComponentInParent<Ship>();
+        }
     }
 
     void LateUpdate()
     {
-        if (Target != null)
+
+        if (Target != null && _ship != null)
         {
-            var newRotationY = Quaternion.AngleAxis(Target.transform.rotation.eulerAngles.y, Vector3.up);
-            var newPosition = Target.transform.position - Target.transform.forward*DistanceFromTarget + _offsetY;
+            if (!_ship.IsDead)
+            {
+                var newRotationY = Quaternion.AngleAxis(Target.transform.rotation.eulerAngles.y, Vector3.up);
+                var newPosition = Target.transform.position - Target.transform.forward*DistanceFromTarget + _offsetY;
 
-            //newRotationY * _offset + Target.transform.position + _offsetY;
+                //newRotationY * _offset + Target.transform.position + _offsetY;
 
-            //Vector3.Slerp(transform.position, Target.transform.position, Time.deltaTime * SlerpSpeed) :
-            //transform.position = _offset + Target.transform.position + _offsetY;
-            transform.position = Vector3.Slerp(transform.position, newPosition, Time.deltaTime*SlerpSpeed);
-            transform.rotation = Quaternion.Slerp(transform.rotation, newRotationY, Time.deltaTime*SlerpSpeed);
+                //Vector3.Slerp(transform.position, Target.transform.position, Time.deltaTime * SlerpSpeed) :
+                //transform.position = _offset + Target.transform.position + _offsetY;
+                transform.position = Vector3.Slerp(transform.position, newPosition, Time.deltaTime*SlerpSpeed);
+                transform.rotation = Quaternion.Slerp(transform.rotation, newRotationY, Time.deltaTime*SlerpSpeed);
+            }
         }
     }
 
