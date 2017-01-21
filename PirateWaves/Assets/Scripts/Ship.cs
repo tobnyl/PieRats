@@ -14,11 +14,17 @@ public class Ship : MonoBehaviour
     public GameObject BaseCanon;
     public float BaseCanonRotationSpeedY = 10f;
     public float BaseCanonSlerpSpeedY = 1f;
+    public Vector2 BaseCanonAngleLimit;
+
     [Header("Canon")]
     public GameObject Canon;
     public float CanonRotationSpeedX = 10f;
     public float CanonSlerpSpeedX = 1f;
     public Vector2 CanonAngleLimit;
+
+    [Header("Canon Ball")]
+    public GameObject CanonBallPosition;
+    public GameObject CanonBallPrefab;
 
     private Rigidbody _rigidbody;
     private float _currentBaseCanonAngleY;
@@ -41,6 +47,7 @@ public class Ship : MonoBehaviour
     void Awake()
     {
         _rigidbody = GetComponent<Rigidbody>();
+        
     }
 
     void FixedUpdate()
@@ -53,6 +60,8 @@ public class Ship : MonoBehaviour
 	{
         RotateBaseCannon();
 	    RotateCannon();
+
+        Debug.Log(Input.GetAxisRaw("Fire1"));
 	}
 
     #endregion
@@ -61,6 +70,7 @@ public class Ship : MonoBehaviour
     private void RotateBaseCannon()
     {
         _currentBaseCanonAngleY += AxisRight.x * BaseCanonRotationSpeedY;
+        _currentBaseCanonAngleY = Mathf.Clamp(_currentBaseCanonAngleY, BaseCanonAngleLimit.x, BaseCanonAngleLimit.y);
 
         var newRotationY = Quaternion.AngleAxis(_currentBaseCanonAngleY + transform.rotation.eulerAngles.y, BaseCanon.transform.up);
 
