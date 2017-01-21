@@ -28,12 +28,18 @@ public class Ship : MonoBehaviour
     public float CanonBallForce = 10f;
     public float CoolDown = 1f;
 
+    [Header("Health")]
+    public int StartHealth = 100;
+
     private Rigidbody _rigidbody;
     private float _currentBaseCanonAngleY;
     private float _currentCanonAngleX;
     private bool _isFiring;
     private bool _instantiateCannonBall;
     private float _currentCoolDown;
+
+    [SerializeField, ReadOnly]
+    private int _health;
 
     private Vector3 AxisLeft
     {
@@ -51,7 +57,8 @@ public class Ship : MonoBehaviour
     void Awake()
     {
         _rigidbody = GetComponent<Rigidbody>();
-        
+        _health = StartHealth;
+
     }
 
     void FixedUpdate()
@@ -78,6 +85,19 @@ public class Ship : MonoBehaviour
 	    RotateCannon();
         Fire();
 	}
+
+    void OnCollisionEnter(Collision c)
+    {
+        if (c.gameObject.layer == LayerMask.NameToLayer("CanonBall"))
+        {
+            _health -= 10;
+
+            if (_health <= 0)
+            {
+                Destroy(gameObject);
+            }
+        }
+    }
 
     #endregion
     #region Methods

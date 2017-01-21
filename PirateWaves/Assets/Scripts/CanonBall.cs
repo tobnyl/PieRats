@@ -16,8 +16,7 @@ public class CanonBall : MonoBehaviour
 	}
 
     void OnCollisionEnter(Collision c)
-    {
-        Debug.Log(c.collider.name);
+    {        
         if (c.gameObject.layer == LayerMask.NameToLayer("Water"))
         {
             Destroy(gameObject);

@@ -28,15 +28,18 @@ public class ThirdPersonCamera : MonoBehaviour
 
     void LateUpdate()
     {
-        var newRotationY = Quaternion.AngleAxis(Target.transform.rotation.eulerAngles.y, Vector3.up);
-        var newPosition = Target.transform.position - Target.transform.forward*DistanceFromTarget + _offsetY;
+        if (Target != null)
+        {
+            var newRotationY = Quaternion.AngleAxis(Target.transform.rotation.eulerAngles.y, Vector3.up);
+            var newPosition = Target.transform.position - Target.transform.forward*DistanceFromTarget + _offsetY;
 
             //newRotationY * _offset + Target.transform.position + _offsetY;
 
-        //Vector3.Slerp(transform.position, Target.transform.position, Time.deltaTime * SlerpSpeed) :
-        //transform.position = _offset + Target.transform.position + _offsetY;
-        transform.position = Vector3.Slerp(transform.position, newPosition, Time.deltaTime* SlerpSpeed);
-        transform.rotation = Quaternion.Slerp(transform.rotation, newRotationY, Time.deltaTime* SlerpSpeed);
+            //Vector3.Slerp(transform.position, Target.transform.position, Time.deltaTime * SlerpSpeed) :
+            //transform.position = _offset + Target.transform.position + _offsetY;
+            transform.position = Vector3.Slerp(transform.position, newPosition, Time.deltaTime*SlerpSpeed);
+            transform.rotation = Quaternion.Slerp(transform.rotation, newRotationY, Time.deltaTime*SlerpSpeed);
+        }
     }
 
     #endregion
