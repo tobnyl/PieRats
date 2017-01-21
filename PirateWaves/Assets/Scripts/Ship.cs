@@ -38,6 +38,14 @@ public class Ship : MonoBehaviour
     [Header("Mast")]
     public GameObject Mast;
     public Material MastMaterial;
+    public float MastDestroyForce;
+    public float MastDestroyTorque;
+
+    [Header("Front")]
+    public GameObject Front;
+
+    [Header("Steer")]
+    public GameObject Steer;
 
     [Header("Health")]
     public int StartHealth = 100;
@@ -140,19 +148,11 @@ public class Ship : MonoBehaviour
             {
                 _fracturedObject.Explode(c.contacts[0].point, ExplosionForce);
 
-                DestroyGameObject(BaseCanon, CannonDestroyForce, CannonDestroyTorque);
-                DestroyGameObject(Barrel, BarrelDestroyForce, BarrelDestroyTorque);
-                //var baseCanonRigidbody = BaseCanon.GetComponent<Rigidbody>();
-
-                //if (baseCanonRigidbody != null)
-                //{
-                //    baseCanonRigidbody.isKinematic = false;
-                //    baseCanonRigidbody.useGravity = true;
-                //    baseCanonRigidbody.AddForce(Vector3.up * CannonDestroyForce, ForceMode.Impulse);
-                //    baseCanonRigidbody.AddTorque(Vector3.right * CannonDestroyTorque, ForceMode.Impulse);
-                //}
-
-                //Destroy(gameObject);
+                DestroyGameObject(BaseCanon, CannonDestroyForce, CannonDestroyTorque, Vector3.right);
+                DestroyGameObject(Barrel, BarrelDestroyForce, BarrelDestroyTorque, Vector3.right);
+                DestroyGameObject(Mast, MastDestroyForce, MastDestroyTorque, Vector3.up + Vector3.forward);
+                DestroyGameObject(Front, 5, 5, Vector3.forward);
+                DestroyGameObject(Steer, 5, 5, Vector3.forward);
             }
 
             Destroy(c.gameObject);
@@ -162,7 +162,7 @@ public class Ship : MonoBehaviour
     #endregion
     #region Methods
 
-    private void DestroyGameObject(GameObject go, float force, float torque)
+    private void DestroyGameObject(GameObject go, float force, float torque, Vector3 torqueAxis)
     {
         var rigidbody = go.GetComponent<Rigidbody>();
 
@@ -170,7 +170,7 @@ public class Ship : MonoBehaviour
         {
             rigidbody.isKinematic = false;
             rigidbody.AddForce(Vector3.up * force, ForceMode.Impulse);
-            rigidbody.AddTorque(Vector3.right * torque, ForceMode.Impulse);
+            rigidbody.AddTorque(torqueAxis * torque, ForceMode.Impulse);
         }
     }
 
