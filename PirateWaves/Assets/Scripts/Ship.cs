@@ -25,10 +25,13 @@ public class Ship : MonoBehaviour
     [Header("Canon Ball")]
     public GameObject CanonBallPosition;
     public GameObject CanonBallPrefab;
+    public float CanonBallForce = 10f;
 
     private Rigidbody _rigidbody;
     private float _currentBaseCanonAngleY;
     private float _currentCanonAngleX;
+    private bool _isFiring;
+    private bool _instantiateCannonBall;
 
     private Vector3 AxisLeft
     {
@@ -39,7 +42,6 @@ public class Ship : MonoBehaviour
     {
         get { return new Vector3(Input.GetAxis("HorizontalRight" + Index), 0, Input.GetAxis("VerticalRight" + Index)); }
     }
-
 
     #endregion
     #region Events
@@ -54,14 +56,25 @@ public class Ship : MonoBehaviour
     {
         _rigidbody.AddForce(transform.forward * AxisLeft.z * ForwardForce);
         _rigidbody.AddTorque(Vector3.up * AxisLeft.x * RotationForce);
+
+        if (_instantiateCannonBall)
+        {
+            var canonBall = CanonBallPrefab.Instantiate(CanonBallPosition.transform.position, Quaternion.identity);
+            var canonBallRigidBody = canonBall.GetComponent<Rigidbody>();
+
+            canonBallRigidBody.AddForce(Canon.transform.up * CanonBallForce, ForceMode.Impulse);
+
+
+            _instantiateCannonBall = false;
+        }
+
     }
 
 	void Update ()
 	{
         RotateBaseCannon();
 	    RotateCannon();
-
-        Debug.Log(Input.GetAxisRaw("Fire1"));
+        Fire();
 	}
 
     #endregion
@@ -83,9 +96,21 @@ public class Ship : MonoBehaviour
 
         _currentCanonAngleX = Mathf.Clamp(_currentCanonAngleX, CanonAngleLimit.x, CanonAngleLimit.y);
 
-        Debug.Log(_currentCanonAngleX);
         var newRotationX = Quaternion.AngleAxis(_currentCanonAngleX, BaseCanon.transform.right);
         Canon.transform.rotation = Quaternion.Slerp(Canon.transform.rotation, newRotationX, Time.deltaTime*CanonSlerpSpeedX);
+    }
+
+    private void Fire()
+    {
+        if (Input.GetAxisRaw("Fire" + Index) > 0 && !_isFiring)
+        {
+            _isFiring = true;
+            _instantiateCannonBall = true;            
+        }
+        else if (Input.GetAxisRaw("Fire" + Index) == 0)
+        {
+            _isFiring = false;
+        }
     }
 
     #endregion
