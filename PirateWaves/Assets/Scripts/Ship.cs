@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class Ship : MonoBehaviour
 {
+    #region Fields/Properties
+
     public int Index;
     public float ForwardForce = 1f;
     public float RotationForce = 1f;
@@ -26,32 +28,29 @@ public class Ship : MonoBehaviour
         get { return new Vector3(Input.GetAxis("HorizontalRight" + Index), 0, -Input.GetAxis("VerticalRight" + Index)); }
     }
 
+
+    #endregion
+    #region Events
+
     void Awake()
     {
         _rigidbody = GetComponent<Rigidbody>();
     }
-
-	// Use this for initialization
-	void Start ()
-    {
-		
-	}
 
     void FixedUpdate()
     {
         _rigidbody.AddForce(transform.forward * AxisLeft.z * ForwardForce);
         _rigidbody.AddTorque(Vector3.up * AxisLeft.x * RotationForce);
     }
-	
-	// Update is called once per frame
+
 	void Update ()
 	{
         _currentBaseCanonAngleY += AxisRight.x * BaseCannonRotationSpeedY;
 
-        var newRotationY = Quaternion.AngleAxis(_currentBaseCanonAngleY, BaseCanon.transform.up);
+        var newRotationY = Quaternion.AngleAxis(_currentBaseCanonAngleY + transform.rotation.eulerAngles.y, BaseCanon.transform.up);
         	    
         BaseCanon.transform.rotation = Quaternion.Slerp(BaseCanon.transform.rotation, newRotationY, Time.deltaTime * BaseCannonSlerpSpeedY);        
-
-
     }
+
+    #endregion
 }

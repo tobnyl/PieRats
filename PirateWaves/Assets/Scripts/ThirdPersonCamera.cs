@@ -15,25 +15,16 @@ public class ThirdPersonCamera : MonoBehaviour
     private Vector3 _offsetY;
 
     #endregion
-
     #region Events
-
-    // Use this for initialization
+    
     void Start ()
     {
-        
-
         transform.position = Target.transform.position - Target.transform.forward * DistanceFromTarget;              
         transform.rotation = Quaternion.Euler(0, Target.transform.rotation.eulerAngles.y, 0);
 
         _offset = transform.position - Target.transform.position;
         _offsetY = new Vector3(0, OffsetY, 0);
     }
-
-    // Update is called once per frame
-    void Update () {
-		
-	}
 
     void LateUpdate()
     {
