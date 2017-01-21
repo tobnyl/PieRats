@@ -90,7 +90,7 @@ public class Ship : MonoBehaviour
     {
         if (c.gameObject.layer == LayerMask.NameToLayer("CanonBall"))
         {
-            _health -= 10;
+            _health -= GameManager.Instance.CanonBallDamageAmount;
 
             if (_health <= 0)
             {
