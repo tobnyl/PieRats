@@ -12,12 +12,12 @@ public class Ship : MonoBehaviour
         
     [Header("Base Canon")]
     public GameObject BaseCanon;
-    public float BaseCannonRotationSpeedY = 10f;
-    public float BaseCannonSlerpSpeedY = 1f;
+    public float BaseCanonRotationSpeedY = 10f;
+    public float BaseCanonSlerpSpeedY = 1f;
     [Header("Canon")]
     public GameObject Canon;
-    public float CannonRotationSpeedX = 10f;
-    public float CannonSlerpSpeedX = 1f;
+    public float CanonRotationSpeedX = 10f;
+    public float CanonSlerpSpeedX = 1f;
     public Vector2 CanonAngleLimit;
 
     private Rigidbody _rigidbody;
@@ -31,7 +31,7 @@ public class Ship : MonoBehaviour
 
     private Vector3 AxisRight
     {
-        get { return new Vector3(Input.GetAxis("HorizontalRight" + Index), 0, -Input.GetAxis("VerticalRight" + Index)); }
+        get { return new Vector3(Input.GetAxis("HorizontalRight" + Index), 0, Input.GetAxis("VerticalRight" + Index)); }
     }
 
 
@@ -60,22 +60,22 @@ public class Ship : MonoBehaviour
 
     private void RotateBaseCannon()
     {
-        _currentBaseCanonAngleY += AxisRight.x * BaseCannonRotationSpeedY;
+        _currentBaseCanonAngleY += AxisRight.x * BaseCanonRotationSpeedY;
 
         var newRotationY = Quaternion.AngleAxis(_currentBaseCanonAngleY + transform.rotation.eulerAngles.y, BaseCanon.transform.up);
 
-        BaseCanon.transform.rotation = Quaternion.Slerp(BaseCanon.transform.rotation, newRotationY, Time.deltaTime * BaseCannonSlerpSpeedY);
+        BaseCanon.transform.rotation = Quaternion.Slerp(BaseCanon.transform.rotation, newRotationY, Time.deltaTime * BaseCanonSlerpSpeedY);
     }
 
     private void RotateCannon()
     {
-        _currentCanonAngleX += AxisRight.z * CannonRotationSpeedX;
+        _currentCanonAngleX += AxisRight.z * CanonRotationSpeedX;
 
         _currentCanonAngleX = Mathf.Clamp(_currentCanonAngleX, CanonAngleLimit.x, CanonAngleLimit.y);
 
         Debug.Log(_currentCanonAngleX);
         var newRotationX = Quaternion.AngleAxis(_currentCanonAngleX, BaseCanon.transform.right);
-        Canon.transform.rotation = Quaternion.Slerp(Canon.transform.rotation, newRotationX, Time.deltaTime*CannonSlerpSpeedX);
+        Canon.transform.rotation = Quaternion.Slerp(Canon.transform.rotation, newRotationX, Time.deltaTime*CanonSlerpSpeedX);
     }
 
     #endregion
