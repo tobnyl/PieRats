@@ -34,6 +34,7 @@ public class Ship : MonoBehaviour
     public int StartHealth = 100;
     [SerializeField, ReadOnly]
     private int _health;
+    public float ExplosionForce = 1f;
 
     [Header("Particle Systems")]
     public GameObject HitParticleSystem;
@@ -44,7 +45,8 @@ public class Ship : MonoBehaviour
     private bool _isFiring;
     private bool _instantiateCannonBall;
     private float _currentCoolDown;
-
+    private FracturedObject _fracturedObject;
+    
 
     private Vector3 AxisLeft
     {
@@ -62,6 +64,7 @@ public class Ship : MonoBehaviour
     void Awake()
     {
         _rigidbody = GetComponent<Rigidbody>();
+        _fracturedObject = GetComponentInChildren<FracturedObject>();
         _health = StartHealth;
 
     }
@@ -116,7 +119,9 @@ public class Ship : MonoBehaviour
 
             if (_health <= 0)
             {
-                Destroy(gameObject);
+                _fracturedObject.Explode(c.contacts[0].point, ExplosionForce);
+
+                //Destroy(gameObject);
             }
 
             Destroy(c.gameObject);
