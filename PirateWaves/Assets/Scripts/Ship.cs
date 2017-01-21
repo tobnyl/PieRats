@@ -74,6 +74,7 @@ public class Ship : MonoBehaviour
         }
 
         _rigidbody.AddTorque(Vector3.up * AxisLeft.x * RotationForce);
+        Debug.Log(transform.rotation.eulerAngles.y);
 
         if (_instantiateCannonBall)
         {
