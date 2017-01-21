@@ -30,6 +30,13 @@ public class Ship : MonoBehaviour
     public float CanonBallForce = 10f;
     public float CoolDown = 1f;
 
+    [Header("Barrel")]
+    public GameObject Barrel;
+
+    [Header("Mast")]
+    public GameObject Mast;
+    public Material MastMaterial;
+
     [Header("Health")]
     public int StartHealth = 100;
     [SerializeField, ReadOnly]
@@ -73,6 +80,9 @@ public class Ship : MonoBehaviour
         _rigidbody = GetComponent<Rigidbody>();
         _fracturedObject = GetComponentInChildren<FracturedObject>();
         _health = StartHealth;
+
+        var mastMeshRenderer = Mast.GetComponentInChildren<MeshRenderer>();
+        mastMeshRenderer.material = MastMaterial;
 
     }
 
