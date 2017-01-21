@@ -32,6 +32,11 @@ public class Ship : MonoBehaviour
 
     [Header("Health")]
     public int StartHealth = 100;
+    [SerializeField, ReadOnly]
+    private int _health;
+
+    [Header("Particle Systems")]
+    public GameObject HitParticleSystem;
 
     private Rigidbody _rigidbody;
     private float _currentBaseCanonAngleY;
@@ -40,8 +45,6 @@ public class Ship : MonoBehaviour
     private bool _instantiateCannonBall;
     private float _currentCoolDown;
 
-    [SerializeField, ReadOnly]
-    private int _health;
 
     private Vector3 AxisLeft
     {
@@ -107,6 +110,9 @@ public class Ship : MonoBehaviour
         if (c.gameObject.layer == LayerMask.NameToLayer("CanonBall"))
         {
             _health -= GameManager.Instance.CanonBallDamageAmount;
+
+            var go = HitParticleSystem.Instantiate(c.contacts[0].point, Quaternion.identity);
+            go.transform.parent = transform;
 
             if (_health <= 0)
             {
