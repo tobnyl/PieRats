@@ -13,6 +13,7 @@ public class ThirdPersonCamera : MonoBehaviour
 
     private Vector3 _offset;
     private Vector3 _offsetY;
+    private Ship _targetShip;
 
     #endregion
     #region Events
@@ -24,14 +25,17 @@ public class ThirdPersonCamera : MonoBehaviour
 
         _offset = transform.position - Target.transform.position;
         _offsetY = new Vector3(0, OffsetY, 0);
+
+        _targetShip = Target.GetComponent<Ship>();
     }
 
     void LateUpdate()
     {
         if (Target != null)
         {
-            var newRotationY = Quaternion.AngleAxis(Target.transform.rotation.eulerAngles.y, Vector3.up);
-            var newPosition = Target.transform.position - Target.transform.forward*DistanceFromTarget + _offsetY;
+            //  + Target.transform.rotation.eulerAngles.y
+            var newRotationY = Quaternion.AngleAxis(_targetShip.BaseCanon.transform.rotation.eulerAngles.y, Vector3.up);
+            var newPosition = _targetShip.BaseCanon.transform.position - _targetShip.BaseCanon.transform.forward*DistanceFromTarget + _offsetY;
 
             //newRotationY * _offset + Target.transform.position + _offsetY;
 
