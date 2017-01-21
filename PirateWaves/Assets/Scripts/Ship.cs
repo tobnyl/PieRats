@@ -105,6 +105,8 @@ public class Ship : MonoBehaviour
             {
                 Destroy(gameObject);
             }
+
+            Destroy(c.gameObject);
         }
     }
 
