@@ -149,12 +149,15 @@ public class Ship : MonoBehaviour
 
     private void RotateBaseCannon()
     {
-        _currentBaseCanonAngleY += AxisRight.x * BaseCanonRotationSpeedY;
-        _currentBaseCanonAngleY = Mathf.Clamp(_currentBaseCanonAngleY, BaseCanonAngleLimit.x, BaseCanonAngleLimit.y);
+        if (!IsDead)
+        { 
+            _currentBaseCanonAngleY += AxisRight.x * BaseCanonRotationSpeedY;
+            _currentBaseCanonAngleY = Mathf.Clamp(_currentBaseCanonAngleY, BaseCanonAngleLimit.x, BaseCanonAngleLimit.y);
 
-        var newRotationY = Quaternion.AngleAxis(_currentBaseCanonAngleY + transform.rotation.eulerAngles.y, BaseCanon.transform.up);
+            var newRotationY = Quaternion.AngleAxis(_currentBaseCanonAngleY + transform.rotation.eulerAngles.y, BaseCanon.transform.up);
 
-        BaseCanon.transform.rotation = Quaternion.Slerp(BaseCanon.transform.rotation, newRotationY, Time.deltaTime * BaseCanonSlerpSpeedY);
+            BaseCanon.transform.rotation = Quaternion.Slerp(BaseCanon.transform.rotation, newRotationY, Time.deltaTime * BaseCanonSlerpSpeedY);
+        }
     }
 
     private void RotateCannon()
