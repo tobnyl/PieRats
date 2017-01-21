@@ -61,7 +61,7 @@ public class Ship : MonoBehaviour
 
         if (_instantiateCannonBall)
         {
-            var canonBall = CanonBallPrefab.Instantiate(CanonBallPosition.transform.position, Quaternion.identity);
+            var canonBall = CanonBallPrefab.Instantiate(CanonBallPosition.transform.position, Canon.transform.rotation);
             var canonBallRigidBody = canonBall.GetComponent<Rigidbody>();
 
             canonBallRigidBody.AddForce(Canon.transform.up * CanonBallForce, ForceMode.Impulse);
