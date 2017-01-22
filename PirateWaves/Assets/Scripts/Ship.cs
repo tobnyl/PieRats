@@ -12,6 +12,7 @@ public class Ship : MonoBehaviour
     public float RotationForce = 1f;
     public bool BackMovement;
     public float MaxSpeed = 15f;
+    public float MaxAngularSpeed = 15f;
         
     [Header("Base Canon")]
     public GameObject BaseCanon;
@@ -113,9 +114,7 @@ public class Ship : MonoBehaviour
     }
 
     void FixedUpdate()
-    {
-        Debug.Log(_rigidbody.velocity);
-
+    {        
         if (!BackMovement && AxisLeft.z > 0 && _rigidbody.velocity.magnitude < MaxSpeed)
         { 
             _rigidbody.AddForce(transform.forward * AxisLeft.z * ForwardForce);
@@ -146,10 +145,14 @@ public class Ship : MonoBehaviour
             //    AudioManager.Instance.Play(WaveSfx, transform.position);
             //    _waveSfxCooldown = Random.Range(WaveSfxRandomIntervalRange.x, WaveSfxRandomIntervalRange.y);
             //}
+            
 
-            _rigidbody.AddTorque(Vector3.up*AxisLeft.x*RotationForce);
-            _rigidbody.AddForce(transform.forward * 1);
-             //SteerWheel.transform.rotation = Quaternion.AngleAxis(RotationForce, Vector3.up);
+            if (_rigidbody.angularVelocity.magnitude < MaxAngularSpeed)
+            {
+                _rigidbody.AddTorque(Vector3.up*AxisLeft.x*RotationForce);
+                _rigidbody.AddForce(transform.forward*1);
+            }
+            //SteerWheel.transform.rotation = Quaternion.AngleAxis(RotationForce, Vector3.up);
         }
 
         if (AxisLeft.x == 0 && AxisLeft.z == 0)
