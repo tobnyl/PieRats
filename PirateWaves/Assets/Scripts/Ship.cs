@@ -72,6 +72,7 @@ public class Ship : MonoBehaviour
 
     [Header("Particle Systems")]
     public GameObject HitParticleSystem;
+    public GameObject HitParticleSystemExplosion;
 
     private Rigidbody _rigidbody;
     private float _currentBaseCanonAngleY;
@@ -196,6 +197,7 @@ public class Ship : MonoBehaviour
             _health -= GameManager.Instance.CanonBallDamageAmount;
 
             var go = HitParticleSystem.Instantiate(c.contacts[0].point, Quaternion.identity);
+            HitParticleSystemExplosion.Instantiate(c.contacts[0].point, Quaternion.identity);
             go.transform.parent = transform;
 
             AudioManager.Instance.Play(HitSfx, transform.position);
