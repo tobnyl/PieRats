@@ -160,7 +160,7 @@ public class Ship : MonoBehaviour
                 _rigidbody.AddTorque(Vector3.up*AxisLeft.x*RotationForce);
                 _rigidbody.AddForce(transform.forward*1);
             }
-            SteerWheel.transform.rotation = Quaternion.AngleAxis(RotationForce, SteerWheel.transform.forward);
+            //SteerWheel.transform.rotation = Quaternion.AngleAxis(RotationForce, SteerWheel.transform.right);
         }
 
         if (AxisLeft.x == 0 && AxisLeft.z == 0)
