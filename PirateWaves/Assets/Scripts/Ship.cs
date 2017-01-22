@@ -74,6 +74,8 @@ public class Ship : MonoBehaviour
     private float _currentCoolDown;
     private FracturedObject _fracturedObject;
     private float _waveSfxCooldown;
+    private bool _isSailing;
+    private GameObject _sailingSfx;
     
 
     private Vector3 AxisLeft
@@ -112,6 +114,12 @@ public class Ship : MonoBehaviour
         if (!BackMovement && AxisLeft.z > 0 && _rigidbody.velocity.magnitude < MaxSpeed)
         { 
             _rigidbody.AddForce(transform.forward * AxisLeft.z * ForwardForce);
+
+            if (!_isSailing)
+            {
+                _sailingSfx = AudioManager.Instance.Play(WaveSfx, transform.position);
+                _isSailing = true;
+            }
         }
         else if (BackMovement)
         {
@@ -120,16 +128,28 @@ public class Ship : MonoBehaviour
 
         if (AxisLeft.x != 0)
         {
-            _waveSfxCooldown -= Time.deltaTime;
-
-            if (_waveSfxCooldown <= 0)
+            if (!_isSailing)
             {
-                AudioManager.Instance.Play(WaveSfx, transform.position);
-                _waveSfxCooldown = Random.Range(WaveSfxRandomIntervalRange.x, WaveSfxRandomIntervalRange.y);
+                _sailingSfx = AudioManager.Instance.Play(WaveSfx, transform.position);
+                _isSailing = true;
             }
+
+            //_waveSfxCooldown -= Time.deltaTime;
+
+            //if (_waveSfxCooldown <= 0)
+            //{
+            //    AudioManager.Instance.Play(WaveSfx, transform.position);
+            //    _waveSfxCooldown = Random.Range(WaveSfxRandomIntervalRange.x, WaveSfxRandomIntervalRange.y);
+            //}
 
             _rigidbody.AddTorque(Vector3.up*AxisLeft.x*RotationForce);
             _rigidbody.AddForce(transform.forward * 1);
+        }
+
+        if (AxisLeft.x == 0 && AxisLeft.z == 0)
+        {
+            Destroy(_sailingSfx);
+            _isSailing = false;
         }
 
         if (_instantiateCannonBall)
