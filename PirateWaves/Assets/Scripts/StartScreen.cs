@@ -2,8 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
-public class StartScreen : MonoBehaviour {
+public class StartScreen : MonoBehaviour
+{
+
+    public Image Background;
 
 	// Use this for initialization
 	void Start () {
@@ -21,6 +25,8 @@ public class StartScreen : MonoBehaviour {
 
     public void StartGame()
     {
+        Background.gameObject.SetActive(false);
+
         SceneManager.LoadScene("main");
     }
 }
