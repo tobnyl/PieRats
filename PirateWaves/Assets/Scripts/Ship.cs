@@ -9,6 +9,7 @@ public class Ship : MonoBehaviour
 
     public int Index;
     public float ForwardForce = 1f;
+    public float BackwardForce = 1f;
     public float RotationForce = 1f;
     public bool BackMovement;
     public float MaxSpeed = 15f;
@@ -115,9 +116,16 @@ public class Ship : MonoBehaviour
 
     void FixedUpdate()
     {        
-        if (!BackMovement && AxisLeft.z > 0 && _rigidbody.velocity.magnitude < MaxSpeed)
-        { 
-            _rigidbody.AddForce(transform.forward * AxisLeft.z * ForwardForce);
+        if (_rigidbody.velocity.magnitude < MaxSpeed)
+        {
+            if (AxisLeft.z > 0)
+            {
+                _rigidbody.AddForce(transform.forward*AxisLeft.z*ForwardForce);
+            }
+            else if (AxisLeft.z < 0)
+            {
+                _rigidbody.AddForce(transform.forward * AxisLeft.z * BackwardForce);
+            }
 
             if (!_isSailing)
             {
@@ -125,10 +133,10 @@ public class Ship : MonoBehaviour
                 _isSailing = true;
             }
         }
-        else if (BackMovement)
-        {
-            _rigidbody.AddForce(transform.forward * AxisLeft.z * ForwardForce);
-        }
+        //else if (BackMovement)
+        //{
+        //    _rigidbody.AddForce(transform.forward * AxisLeft.z * ForwardForce);
+        //}
 
         if (AxisLeft.x != 0)
         {
@@ -152,7 +160,7 @@ public class Ship : MonoBehaviour
                 _rigidbody.AddTorque(Vector3.up*AxisLeft.x*RotationForce);
                 _rigidbody.AddForce(transform.forward*1);
             }
-            //SteerWheel.transform.rotation = Quaternion.AngleAxis(RotationForce, Vector3.up);
+            SteerWheel.transform.rotation = Quaternion.AngleAxis(RotationForce, SteerWheel.transform.forward);
         }
 
         if (AxisLeft.x == 0 && AxisLeft.z == 0)
