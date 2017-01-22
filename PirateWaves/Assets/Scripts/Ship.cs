@@ -73,6 +73,8 @@ public class Ship : MonoBehaviour
     [Header("Particle Systems")]
     public GameObject HitParticleSystem;
     public GameObject HitParticleSystemExplosion;
+    public GameObject CanonTrail;
+    public GameObject HugeExplosion;
 
     private Rigidbody _rigidbody;
     private float _currentBaseCanonAngleY;
@@ -172,8 +174,11 @@ public class Ship : MonoBehaviour
 
         if (_instantiateCannonBall)
         {
+            
+
             var canonBall = CanonBallPrefab.Instantiate(CanonBallPosition.transform.position, Canon.transform.rotation);
             var canonBallRigidBody = canonBall.GetComponent<Rigidbody>();
+            CanonTrail.Instantiate(CanonBallPosition.transform.position, Canon.transform.rotation, canonBall.transform);
 
             canonBallRigidBody.AddForce(Canon.transform.up * CanonBallForce, ForceMode.Impulse);
 
@@ -217,6 +222,8 @@ public class Ship : MonoBehaviour
                 DestroyGameObject(CaptainRat, 30, 50, Vector3.forward);
 
                 StartCoroutine(ShipDestroyed());
+
+                HugeExplosion.Instantiate(transform.position, Quaternion.identity);
 
                 var particleSystems = GetComponentsInChildren<ParticleSystem>();
 
