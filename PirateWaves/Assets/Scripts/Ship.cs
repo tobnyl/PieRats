@@ -204,6 +204,13 @@ public class Ship : MonoBehaviour
                 DestroyGameObject(CaptainRat, 30, 50, Vector3.forward);
 
                 StartCoroutine(ShipDestroyed());
+
+                var particleSystems = GetComponentsInChildren<ParticleSystem>();
+
+                foreach (var ps in particleSystems)
+                {
+                    Destroy(ps.gameObject);
+                }
             }
             
 
