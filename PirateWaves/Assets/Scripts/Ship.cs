@@ -47,6 +47,7 @@ public class Ship : MonoBehaviour
 
     [Header("Steer")]
     public GameObject Steer;
+    public GameObject SteerWheel;
 
     [Header("Health")]
     public int StartHealth = 100;
@@ -148,6 +149,7 @@ public class Ship : MonoBehaviour
 
             _rigidbody.AddTorque(Vector3.up*AxisLeft.x*RotationForce);
             _rigidbody.AddForce(transform.forward * 1);
+             //SteerWheel.transform.rotation = Quaternion.AngleAxis(RotationForce, Vector3.up);
         }
 
         if (AxisLeft.x == 0 && AxisLeft.z == 0)
@@ -199,6 +201,7 @@ public class Ship : MonoBehaviour
                 DestroyGameObject(Mast, MastDestroyForce, MastDestroyTorque, Vector3.up + Vector3.forward);
                 DestroyGameObject(Front, 5, 5, Vector3.forward);
                 DestroyGameObject(Steer, 5, 5, Vector3.forward);
+                DestroyGameObject(CaptainRat, 30, 50, Vector3.forward);
 
                 StartCoroutine(ShipDestroyed());
             }
