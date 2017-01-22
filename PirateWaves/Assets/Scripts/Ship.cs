@@ -56,6 +56,9 @@ public class Ship : MonoBehaviour
     public float CannonDestroyForce = 10f;
     public float CannonDestroyTorque = 10f;
 
+    [Header("Captain Rat")]
+    public GameObject CaptainRat;
+
     [Header("Sfx")]
     public Audio CanonFireSfx;
     public Audio HitSfx;
@@ -230,6 +233,7 @@ public class Ship : MonoBehaviour
             var newRotationY = Quaternion.AngleAxis(_currentBaseCanonAngleY + transform.rotation.eulerAngles.y, BaseCanon.transform.up);
 
             BaseCanon.transform.rotation = Quaternion.Slerp(BaseCanon.transform.rotation, newRotationY, Time.deltaTime * BaseCanonSlerpSpeedY);
+            CaptainRat.transform.rotation =  BaseCanon.transform.rotation * Quaternion.Euler(0, 90, 0);
         }
     }
 
