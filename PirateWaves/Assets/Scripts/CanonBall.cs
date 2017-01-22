@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class CanonBall : MonoBehaviour
 {
+    public Audio PlumsSfx;
 
 	void Start ()
     {
@@ -19,6 +20,7 @@ public class CanonBall : MonoBehaviour
     {        
         if (c.gameObject.layer == LayerMask.NameToLayer("Water"))
         {
+            AudioManager.Instance.Play(PlumsSfx, transform.position);
             Destroy(gameObject);
         }
     }

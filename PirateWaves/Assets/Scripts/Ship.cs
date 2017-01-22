@@ -55,6 +55,14 @@ public class Ship : MonoBehaviour
     public float CannonDestroyForce = 10f;
     public float CannonDestroyTorque = 10f;
 
+    [Header("Sfx")]
+    public Audio CanonFireSfx;
+    public Audio HitSfx;
+    public Audio WaveSfx;
+    public Vector2 WaveSfxRandomIntervalRange;
+    public Audio DestroyedSfx;
+    public Audio WillhelmSfx;
+
     [Header("Particle Systems")]
     public GameObject HitParticleSystem;
 
@@ -65,6 +73,7 @@ public class Ship : MonoBehaviour
     private bool _instantiateCannonBall;
     private float _currentCoolDown;
     private FracturedObject _fracturedObject;
+    private float _waveSfxCooldown;
     
 
     private Vector3 AxisLeft
@@ -90,7 +99,7 @@ public class Ship : MonoBehaviour
         _rigidbody = GetComponent<Rigidbody>();
         _fracturedObject = GetComponentInChildren<FracturedObject>();
         _health = StartHealth;
-
+        
         var mastMeshRenderer = Mast.GetComponentInChildren<MeshRenderer>();
         mastMeshRenderer.material = MastMaterial;
 
@@ -111,6 +120,14 @@ public class Ship : MonoBehaviour
 
         if (AxisLeft.x != 0)
         {
+            _waveSfxCooldown -= Time.deltaTime;
+
+            if (_waveSfxCooldown <= 0)
+            {
+                AudioManager.Instance.Play(WaveSfx, transform.position);
+                _waveSfxCooldown = Random.Range(WaveSfxRandomIntervalRange.x, WaveSfxRandomIntervalRange.y);
+            }
+
             _rigidbody.AddTorque(Vector3.up*AxisLeft.x*RotationForce);
             _rigidbody.AddForce(transform.forward * 1);
         }
@@ -144,8 +161,13 @@ public class Ship : MonoBehaviour
             var go = HitParticleSystem.Instantiate(c.contacts[0].point, Quaternion.identity);
             go.transform.parent = transform;
 
+            AudioManager.Instance.Play(HitSfx, transform.position);
+
             if (_health <= 0)
             {
+                AudioManager.Instance.Play(DestroyedSfx, transform.position);
+                AudioManager.Instance.Play(WillhelmSfx, transform.position);
+
                 _fracturedObject.Explode(c.contacts[0].point, ExplosionForce);
 
                 DestroyGameObject(BaseCanon, CannonDestroyForce, CannonDestroyTorque, Vector3.right);
@@ -154,6 +176,7 @@ public class Ship : MonoBehaviour
                 DestroyGameObject(Front, 5, 5, Vector3.forward);
                 DestroyGameObject(Steer, 5, 5, Vector3.forward);
             }
+            
 
             Destroy(c.gameObject);
         }
@@ -203,7 +226,9 @@ public class Ship : MonoBehaviour
         {
             _isFiring = true;
             _currentCoolDown = CoolDown;
-            _instantiateCannonBall = true; 
+            _instantiateCannonBall = true;
+
+            AudioManager.Instance.Play(CanonFireSfx, transform.position);
         }
         else if (Input.GetAxisRaw("Fire" + Index) == 0)
         {
