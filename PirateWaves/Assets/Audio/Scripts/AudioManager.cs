@@ -65,6 +65,8 @@ public class AudioManager : MonoBehaviour
         {
             _instance = GetComponent<AudioManager>();
         }
+
+        DontDestroyOnLoad(gameObject);
     }
 
 	void LateUpdate()

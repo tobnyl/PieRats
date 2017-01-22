@@ -1,10 +1,12 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
     public int CanonBallDamageAmount = 20;
+    public int ShipDestroyedIdleTime = 10;
 
     [Header("Sfx")]
     public Audio SeaGullSfx;

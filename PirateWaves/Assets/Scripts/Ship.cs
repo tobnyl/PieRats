@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Ship : MonoBehaviour
 {
@@ -195,6 +196,8 @@ public class Ship : MonoBehaviour
                 DestroyGameObject(Mast, MastDestroyForce, MastDestroyTorque, Vector3.up + Vector3.forward);
                 DestroyGameObject(Front, 5, 5, Vector3.forward);
                 DestroyGameObject(Steer, 5, 5, Vector3.forward);
+
+                StartCoroutine(ShipDestroyed());
             }
             
 
@@ -256,6 +259,13 @@ public class Ship : MonoBehaviour
         }
 
         _currentCoolDown -= Time.deltaTime;
+    }
+
+    IEnumerator ShipDestroyed()
+    {
+        yield return new WaitForSeconds(GameManager.Instance.ShipDestroyedIdleTime);
+
+        SceneManager.LoadScene("StartScreen");
     }
 
     #endregion
