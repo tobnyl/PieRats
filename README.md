@@ -12,6 +12,6 @@ As Captain Rat, it is your task to navigate your pierat ship and to sink your op
 
 **Tobias Nylin:** Programmer
 
-![alt tag](https://lh4.googleusercontent.com/PWDgAQ9VZvuKioXRO8rKCwKKvww0sod3wS87C1YhdUUAM0VddF4R7Zx7VZ9uBgTiqkJ_PUBi=w2560-h1310-rw)
+![alt tag](https://raw.githubusercontent.com/tobnyl/PieRats/master/PirateWaves/Screenshots/2017-01-22_15h41_19.png)
 
-![alt tag](https://lh4.googleusercontent.com/u0eMPmEUWyfcTk8ZC_hfDz9m6yMPuadO2DgskuxHEigcYgkw4jXJr6Fe2B5Mcl2MYoxD0Nvv=w2560-h1310-rw)
+![alt tag](https://raw.githubusercontent.com/tobnyl/PieRats/master/PirateWaves/Screenshots/2017-01-22_15h43_15.png)
