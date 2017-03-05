@@ -13,23 +13,79 @@ public class StartScreen : MonoBehaviour
     public GameObject StartItem;
     public GameObject InstructionsItem;
     public GameObject QuitItem;
-    
-    private GameObject _currentItem;
 
-	// Use this for initialization
-	void Start ()
+    public Color MenuItemColor;
+    public Color MenuItemSelectedColor;
+
+    private GameObject _currentItem;
+    private int _currentIndex;
+
+    private bool _verticalDown = false;
+    private List<GameObject> _menuItems;
+
+    // Use this for initialization
+    void Start ()
     {
         _currentItem = StartItem;
+
+        _menuItems = new List<GameObject>();
+        _menuItems.Add(StartItem);
+        _menuItems.Add(InstructionsItem);
+        _menuItems.Add(QuitItem);
 	}
 	
 	// Update is called once per frame
 	void Update ()
     {
+        var verticalRaw = -Input.GetAxisRaw("Vertical");
+
+        if (verticalRaw > 0 && !_verticalDown)
+        {
+            _currentIndex = (_currentIndex + 1) % 3;
+            _verticalDown = true;
+        }
+        else if (verticalRaw < 0 && !_verticalDown)
+        {
+            _currentIndex = (_currentIndex - 1) % 3;
+            _verticalDown = true;
+
+            if (_currentIndex < 0)
+            {
+                _currentIndex = 2;
+            }
+        }
+        else if (verticalRaw == 0)
+        {
+            _verticalDown = false;
+        }
+
+        foreach (var menuItem in _menuItems)
+        {
+            _currentItem.GetComponent<Text>().color = MenuItemColor;
+        }
+
+        _currentItem = _menuItems[_currentIndex];
+        _currentItem.GetComponent<Text>().color = MenuItemSelectedColor;
+
+        Debug.Log(_currentItem.name);
+
         if (Input.GetButtonDown("Submit"))
         {
             if (_currentItem == StartItem)
             {
                 StartGame();
+            }
+            else if (_currentItem == InstructionsItem)
+            {
+                // TODO: show instructions
+            }
+            else if (_currentItem == QuitItem)
+            {
+                #if UNITY_EDITOR                    
+                    UnityEditor.EditorApplication.isPlaying = false;
+                #endif
+
+                Application.Quit();
             }
         }
 	}
