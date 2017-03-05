@@ -1,0 +1,21 @@
+fileFormatVersion: 2
+guid: b3c1733f92b05f541a93aaf8fe972b07
+timeCreated: 1488737036
+licenseType: Free
+TrueTypeFontImporter:
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: Black Sam's Gold
+  fontNames:
+  - Black Sam's Gold
+  fallbackFontReferences: []
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
