@@ -16,6 +16,7 @@ public class StartScreen : MonoBehaviour
 
     public Color MenuItemColor;
     public Color MenuItemSelectedColor;
+    public GameObject Instructions;
 
     private GameObject _currentItem;
     private int _currentIndex;
@@ -37,7 +38,7 @@ public class StartScreen : MonoBehaviour
 	// Update is called once per frame
 	void Update ()
     {
-        var verticalRaw = -Input.GetAxisRaw("Vertical");
+        var verticalRaw = -(int)Input.GetAxisRaw("Vertical") | -(int)Input.GetAxisRaw("DPadVertical");
 
         if (verticalRaw > 0 && !_verticalDown)
         {
@@ -65,10 +66,8 @@ public class StartScreen : MonoBehaviour
         }
 
         _currentItem = _menuItems[_currentIndex];
-        _currentItem.GetComponent<Text>().color = MenuItemSelectedColor;
-
-        Debug.Log(_currentItem.name);
-
+        _currentItem.GetComponent<Text>().color = MenuItemSelectedColor;        
+        
         if (Input.GetButtonDown("Submit"))
         {
             if (_currentItem == StartItem)
@@ -76,8 +75,14 @@ public class StartScreen : MonoBehaviour
                 StartGame();
             }
             else if (_currentItem == InstructionsItem)
-            {
-                // TODO: show instructions
+            {                
+                Instructions.SetActive(true);
+
+                // TODO: back to menu
+                if (Input.GetButtonDown("Cancel"))
+                {
+                    Instructions.SetActive(false);
+                }
             }
             else if (_currentItem == QuitItem)
             {
