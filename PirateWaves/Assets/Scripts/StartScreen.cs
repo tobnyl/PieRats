@@ -11,7 +11,6 @@ public class StartScreen : MonoBehaviour
     public Image Background;
 
     public GameObject StartItem;
-    public GameObject InstructionsItem;
     public GameObject QuitItem;
 
     public Color MenuItemColor;
@@ -30,9 +29,8 @@ public class StartScreen : MonoBehaviour
         _currentItem = StartItem;
 
         _menuItems = new List<GameObject>();
-        _menuItems.Add(StartItem);
-        _menuItems.Add(InstructionsItem);
-        _menuItems.Add(QuitItem);
+        _menuItems.Add(StartItem);        
+        _menuItems.Add(QuitItem);        
 	}
 	
 	// Update is called once per frame
@@ -42,17 +40,17 @@ public class StartScreen : MonoBehaviour
 
         if (verticalRaw > 0 && !_verticalDown)
         {
-            _currentIndex = (_currentIndex + 1) % 3;
+            _currentIndex = (_currentIndex + 1) % _menuItems.Count;
             _verticalDown = true;
         }
         else if (verticalRaw < 0 && !_verticalDown)
         {
-            _currentIndex = (_currentIndex - 1) % 3;
+            _currentIndex = (_currentIndex - 1) % _menuItems.Count;
             _verticalDown = true;
 
             if (_currentIndex < 0)
             {
-                _currentIndex = 2;
+                _currentIndex = _menuItems.Count - 1;
             }
         }
         else if (verticalRaw == 0)
@@ -73,16 +71,6 @@ public class StartScreen : MonoBehaviour
             if (_currentItem == StartItem)
             {
                 StartGame();
-            }
-            else if (_currentItem == InstructionsItem)
-            {                
-                Instructions.SetActive(true);
-
-                // TODO: back to menu
-                if (Input.GetButtonDown("Cancel"))
-                {
-                    Instructions.SetActive(false);
-                }
             }
             else if (_currentItem == QuitItem)
             {
