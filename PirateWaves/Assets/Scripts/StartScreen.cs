@@ -99,6 +99,6 @@ public class StartScreen : MonoBehaviour
     {
         Background.gameObject.SetActive(false);
 
-        SceneManager.LoadScene("main");
+        SceneManager.LoadScene("InstructionsScreen");
     }
 }
