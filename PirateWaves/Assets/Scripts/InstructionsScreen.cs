@@ -8,6 +8,7 @@ public class InstructionsScreen : MonoBehaviour
     #region Fields/Properties
 
     public GameObject Background;
+    public SceneLoader LoadingScreen;
 
     #endregion
     #region Events
@@ -26,19 +27,25 @@ public class InstructionsScreen : MonoBehaviour
     {
         if (Input.GetButtonDown("Submit"))
         {
-            StartGame();
+            //Background.gameObject.SetActive(false);
+            LoadingScreen.LoadScene();
+            //StartGame();
         }
     }
 
     #endregion
     #region Methods
 
-    private void StartGame()
-    {
-        Background.gameObject.SetActive(false);
+    //private void StartGame()
+    //{
+    //    Background.gameObject.SetActive(false);
 
-        SceneManager.LoadScene("Main");
-    }
+    //    Debug.Log("Loading scene...");
+
+    //    SceneManager.LoadScene("Main");
+
+    //    Debug.Log("Done loading...");
+    //}
 
     #endregion
 

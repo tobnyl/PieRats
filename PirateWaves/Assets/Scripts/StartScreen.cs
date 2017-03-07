@@ -15,7 +15,7 @@ public class StartScreen : MonoBehaviour
 
     public Color MenuItemColor;
     public Color MenuItemSelectedColor;
-    public GameObject Instructions;
+    public GameObject Instructions;    
 
     private GameObject _currentItem;
     private int _currentIndex;
@@ -85,7 +85,7 @@ public class StartScreen : MonoBehaviour
 
     public void StartGame()
     {
-        Background.gameObject.SetActive(false);
+        //Background.gameObject.SetActive(false);
 
         SceneManager.LoadScene("InstructionsScreen");
     }
