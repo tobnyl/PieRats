@@ -29,8 +29,6 @@ public class GameManager : MonoBehaviour
 	    }
 
 	    StartCoroutine(SeaGullSfxCoroutine());
-
-        DontDestroyOnLoad(gameObject);
     }
 	
 	// Update is called once per frame

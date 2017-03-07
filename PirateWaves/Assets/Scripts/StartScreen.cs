@@ -26,6 +26,9 @@ public class StartScreen : MonoBehaviour
     // Use this for initialization
     void Start ()
     {
+        UnityEngine.Cursor.visible = false;
+        UnityEngine.Cursor.lockState = CursorLockMode.Locked;
+
         _currentItem = StartItem;
 
         _menuItems = new List<GameObject>();

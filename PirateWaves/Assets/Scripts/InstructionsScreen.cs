@@ -34,17 +34,6 @@ public class InstructionsScreen : MonoBehaviour
     #endregion
     #region Methods
 
-    //private void StartGame()
-    //{
-    //    Background.gameObject.SetActive(false);
-
-    //    Debug.Log("Loading scene...");
-
-    //    SceneManager.LoadScene("Main");
-
-    //    Debug.Log("Done loading...");
-    //}
-
     #endregion
 
 }
