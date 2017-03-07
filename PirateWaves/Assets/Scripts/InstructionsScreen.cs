@@ -27,9 +27,7 @@ public class InstructionsScreen : MonoBehaviour
     {
         if (Input.GetButtonDown("Submit"))
         {
-            //Background.gameObject.SetActive(false);
             LoadingScreen.LoadScene();
-            //StartGame();
         }
     }
 
