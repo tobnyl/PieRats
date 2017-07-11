@@ -59,7 +59,7 @@ public class SceneLoader : MonoBehaviour
             yield return null;
         }
 
-        
+        Debug.Log("it are done!");
     }
 
 }

@@ -272,6 +272,8 @@ public class Ship : MonoBehaviour
         _currentCanonAngleX += AxisRight.z * CanonRotationSpeedX;
 
         _currentCanonAngleX = Mathf.Clamp(_currentCanonAngleX, CanonAngleLimit.x, CanonAngleLimit.y);
+        
+        //Debug.Log(Time.deltaTime * CanonSlerpSpeedX);
 
         var newRotationX = Quaternion.AngleAxis(_currentCanonAngleX, BaseCanon.transform.right);
         Canon.transform.rotation = Quaternion.Slerp(Canon.transform.rotation, newRotationX, Time.deltaTime*CanonSlerpSpeedX);
